@@ -30,13 +30,24 @@ yarn-error.log
 
 # Miscellaneous
 /.angular/cache
+/.firebase/
 .sass-cache/
 /connect.lock
 /coverage
 /libpeerconnection.log
+firebase-debug.log
 testem.log
 /typings
 
 # System files
 .DS_Store
 Thumbs.db
+
+# VSCode
+# https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+**/*.code-workspace

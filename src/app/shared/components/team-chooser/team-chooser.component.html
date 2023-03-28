@@ -1,1 +1,21 @@
-<p>team-chooser works!</p>
+<form class="row g-3">
+  <div class="col-auto">
+    <input
+      class="form-control"
+      placeholder="Team Name"
+      type="text"
+      id="teamNameInput"
+      #teamNameInput
+    />
+  </div>
+  <!-- ............. -->
+  <div class="col-auto">
+    <button
+      class="btn btn-primary"
+      id="trackTeamBtn"
+      (click)="onTrackTeamBtnClicked(teamNameInput.value)"
+    >
+      Track team
+    </button>
+  </div>
+</form>

@@ -1,4 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
+import { map, Observable, tap } from 'rxjs';
+import { Team } from '../../models/Team';
+import { NBADataService } from '../../services/nba-data.service';
 import { TeamStoreService } from '../../services/team-store.service';
 
 @Component({
@@ -7,9 +10,17 @@ import { TeamStoreService } from '../../services/team-store.service';
   styleUrls: ['./team-chooser.component.scss'],
 })
 export class TeamChooserComponent {
-  constructor(private teamStoreService:TeamStoreService) {}
+  public teams$: Observable<Team[]>;
+  public selectedTeamId: any;
 
-  onTrackTeamBtnClicked(teamName: string) {
-    this.teamStoreService.addTeam(teamName);
+  constructor(
+    private teamStoreService: TeamStoreService,
+    private nbaDataService: NBADataService
+  ) {
+    this.teams$ = this.nbaDataService.getAllTeams();
+  }
+
+  onTrackTeamBtnClicked() {
+    this.teamStoreService.addTeam(this.selectedTeamId);
   }
 }

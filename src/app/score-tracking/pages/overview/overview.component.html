@@ -1,4 +1,6 @@
 <app-team-chooser></app-team-chooser>
 
-
-<app-team-stats-card></app-team-stats-card>
+<app-team-stats-card
+  *ngFor="let id of trackedTeamsIds"
+  [teamId]="id"
+></app-team-stats-card>

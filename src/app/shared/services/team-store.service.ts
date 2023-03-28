@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-const TEAM_NAMES_STORAGE_KEY: string = 'teamNames';
+const TEAM_IDS_STORAGE_KEY: string = 'teamids';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TeamStoreService {
-  public teamNamesSubject: BehaviorSubject<string[]> = new BehaviorSubject<
-    string[]
-  >(this.getNamesFromStorage());
+  public teamIdsSubject: BehaviorSubject<number[]> = new BehaviorSubject<
+    number[]
+  >(this.getIdsFromStorage());
 
   constructor() {}
 
   /**
-   * Will add a name of a team to the local storage if not already present.
+   * Will add a id of a team to the local storage if not already present.
    *
-   * @param teamName the name of the team
+   * @param teamId the id of the team
    */
-  public addTeam(teamName: string): void {
+  public addTeam(teamId: number): void {
     // get
-    let teamNamesFromStorage = this.teamNamesSubject.value;
+    let teamIdsFromStorage = this.teamIdsSubject.value;
 
     // dublicate check
     let alreadyAdded: boolean = false;
-    for (let name of teamNamesFromStorage) {
-      if (name === teamName) {
+    for (let id of teamIdsFromStorage) {
+      if (id === teamId) {
         alreadyAdded = true;
         break;
       }
@@ -33,43 +33,41 @@ export class TeamStoreService {
 
     // add and write
     if (!alreadyAdded) {
-      teamNamesFromStorage.push(teamName);
-      this.setNamesFromStorage(teamNamesFromStorage);
+      teamIdsFromStorage.push(teamId);
+      this.setIdsFromStorage(teamIdsFromStorage);
     }
 
     // inform
-    this.teamNamesSubject.next(teamNamesFromStorage);
+    this.teamIdsSubject.next(teamIdsFromStorage);
   }
 
   /**
-   * Will remove a Team name from the local storage
+   * Will remove a Team id from the local storage
    *
-   * @param teamName The Name of the Team
+   * @param teamId The id of the Team
    */
-  public removeZipFromStore(teamName: string): void {
+  public removeZipFromStore(teamId: number): void {
     // get
-    let teamNamesFromStorage = this.teamNamesSubject.value;
+    let teamIdsFromStorage = this.teamIdsSubject.value;
 
     // remove
-    teamNamesFromStorage = teamNamesFromStorage.filter(
-      (name) => name !== teamName
-    );
+    teamIdsFromStorage = teamIdsFromStorage.filter((id) => id !== teamId);
 
     // save
-    this.setNamesFromStorage(teamNamesFromStorage);
+    this.setIdsFromStorage(teamIdsFromStorage);
 
     // inform
-    this.teamNamesSubject.next(teamNamesFromStorage);
+    this.teamIdsSubject.next(teamIdsFromStorage);
   }
 
-  private getNamesFromStorage(): string[] {
+  private getIdsFromStorage(): number[] {
     const storeOuput: string | null = localStorage.getItem(
-      TEAM_NAMES_STORAGE_KEY
+      TEAM_IDS_STORAGE_KEY
     );
     return storeOuput ? JSON.parse(storeOuput) : [];
   }
 
-  private setNamesFromStorage(teamNames: string[]): void {
-    localStorage.setItem(TEAM_NAMES_STORAGE_KEY, JSON.stringify(teamNames));
+  private setIdsFromStorage(teamIds: number[]): void {
+    localStorage.setItem(TEAM_IDS_STORAGE_KEY, JSON.stringify(teamIds));
   }
 }

@@ -1,10 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { TeamStoreService } from 'src/app/shared/services/team-store.service';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  styleUrls: ['./overview.component.scss'],
 })
-export class OverviewComponent {
+export class OverviewComponent implements OnDestroy {
+  public trackedTeamsIds: number[] = [];
+  private subscriptions: Subscription[] = [];
 
+  constructor(private teamStoreService: TeamStoreService) {
+    this.subscriptions.push(
+      this.teamStoreService.teamIdsSubject.subscribe({
+        next: (ids) => (this.trackedTeamsIds = ids),
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
 }

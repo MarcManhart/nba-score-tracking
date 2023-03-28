@@ -1,0 +1,12 @@
+.card {
+  width: 500px;
+}
+
+.mid-area {
+  display: flex;
+  flex-direction: column;
+  & > div {
+    display: flex;
+    flex-grow: 1;
+  }
+}

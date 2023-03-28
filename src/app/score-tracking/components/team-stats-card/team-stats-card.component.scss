@@ -10,16 +10,13 @@
   }
 
   &__left {
-    background-color: green;
     flex-direction: column;
     & > p {
       display: flex;
-      background-color: aquamarine;
     }
   }
 
   &__right {
-    background-color: tomato;
     img {
       display: block;
       border: 1px solid blue;

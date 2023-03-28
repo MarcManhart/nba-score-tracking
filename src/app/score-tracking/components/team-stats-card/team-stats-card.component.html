@@ -10,7 +10,10 @@
   <div class="card-body mid-area">
     <div class="mid-area__left">
       <p>Results of past 12 days:</p><br>
-      <p>W_OR_L</p><br>
+      <p>
+        <span class="badge rounded-pill text-bg-success">W</span>
+        <span class="badge rounded-pill text-bg-danger">L</span>
+      </p><br>
       <p>Avg pts scored: NUMBER</p><br>
       <p>Avg pts conceded: NUMBER</p>
     </div>
@@ -25,7 +28,7 @@
   </div>
   <!-- ..... -->
   <div class="card-body">
-    <a href="#" class="btn btn-primary">See game results &gt;&gt;</a>
+    <a [routerLink]="['/results', 123456789]" class="btn btn-primary">See game results &gt;&gt;</a>
   </div>
   <!-- ..... -->
 </div>

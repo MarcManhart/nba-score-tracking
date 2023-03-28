@@ -9,25 +9,22 @@ import { NBADataService } from 'src/app/shared/services/nba-data.service';
   styleUrls: ['./team-stats-card.component.scss'],
 })
 export class TeamStatsCardComponent {
-  @Input() teamId: number = 0;
-  public team$: Observable<Team>;
+  @Input() public teamId: number = 0;
+  public team$: Observable<Team | null>; // since the store can manipulated from developer tools, its possible, that a wrong id was given and therefore the team observable is possible null
 
   constructor(private nbaDataService: NBADataService) {
-    const dummy_team_placeholder = {
-      id: this.teamId,
-      abbreviation: 'XXX',
-      city: '-',
-      conference: '-',
-      full_name: '-',
-      division: '-',
-    };
+    // const dummy_team_placeholder = {
+    //   id: this.teamId,
+    //   abbreviation: 'XXX',
+    //   city: '-',
+    //   conference: '-',
+    //   full_name: '-',
+    //   division: '-',
+    // };
 
     this.team$ = nbaDataService.getAllTeams().pipe(
       map((teams: Team[]) => {
-        let foundTeam: Team | undefined = teams.find(
-          (team: Team) => team.id == this.teamId
-        );
-        return foundTeam ?? dummy_team_placeholder;
+        return teams.find((team: Team) => team.id == this.teamId) ?? null;
       })
     );
   }

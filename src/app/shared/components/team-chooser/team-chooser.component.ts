@@ -1,4 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
+import { TeamStoreService } from '../../services/team-store.service';
 
 @Component({
   selector: 'app-team-chooser',
@@ -6,7 +7,9 @@ import { Component, Input, ViewChild } from '@angular/core';
   styleUrls: ['./team-chooser.component.scss'],
 })
 export class TeamChooserComponent {
-  constructor() {}
+  constructor(private teamStoreService:TeamStoreService) {}
 
-  onTrackTeamBtnClicked(teamNam: string) {}
+  onTrackTeamBtnClicked(teamName: string) {
+    this.teamStoreService.addTeam(teamName);
+  }
 }

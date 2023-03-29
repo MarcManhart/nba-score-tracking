@@ -13,15 +13,6 @@ export class TeamStatsCardComponent {
   public team$: Observable<Team | null>; // since the store can manipulated from developer tools, its possible, that a wrong id was given and therefore the team observable is possible null
 
   constructor(private nbaDataService: NBADataService) {
-    // const dummy_team_placeholder = {
-    //   id: this.teamId,
-    //   abbreviation: 'XXX',
-    //   city: '-',
-    //   conference: '-',
-    //   full_name: '-',
-    //   division: '-',
-    // };
-
     this.team$ = nbaDataService.getAllTeams().pipe(
       map((teams: Team[]) => {
         return teams.find((team: Team) => team.id == this.teamId) ?? null;

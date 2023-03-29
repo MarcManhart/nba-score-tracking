@@ -1,6 +1,14 @@
-<app-team-chooser></app-team-chooser>
+<div class="row">
+  <div class="col-6">
+    <app-team-chooser></app-team-chooser>
+  </div>
+</div>
 
-<app-team-stats-card
-  *ngFor="let id of trackedTeamsIds"
-  [teamId]="id"
-></app-team-stats-card>
+<div class="row mt-5">
+  <div class="col-10 card-holder">
+    <app-team-stats-card
+      *ngFor="let id of trackedTeamsIds"
+      [teamId]="id"
+    ></app-team-stats-card>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+.card-holder {
+    display: flex;
+    justify-content: space-around;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+app-team-stats-card {
+    display: flex;
+  }
+  

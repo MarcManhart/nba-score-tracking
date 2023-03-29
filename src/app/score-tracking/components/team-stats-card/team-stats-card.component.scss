@@ -1,12 +1,19 @@
 .card {
-  width: 500px;
+  width: auto;
+  height: 450px;
+}
+
+.close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
 }
 
 .mid-area {
   display: flex;
   & > div {
     display: flex;
-    flex-grow: 1;
+    width: 50%;
   }
 
   &__left {
@@ -18,9 +25,9 @@
 
   &__right {
     img {
-      display: block;
-      border: 1px solid blue;
-      width: 200px;
+      width: 100%;
+      max-width: 250px;
+      object-fit: contain;
     }
   }
 }

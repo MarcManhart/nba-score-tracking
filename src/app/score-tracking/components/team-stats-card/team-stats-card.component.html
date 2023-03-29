@@ -1,34 +1,54 @@
 <div class="card">
-  <!-- ..... -->
-  <div class="card-body">
-    <h5 class="card-title">{{(team$ | async)?.full_name}}</h5>
-    <h6>EAST_OR_WEST_CONFERENCE</h6>
-  </div>
-  <!-- ..... -->
-  <hr />
-  <!-- ..... -->
-  <div class="card-body mid-area">
-    <div class="mid-area__left">
-      <p>Results of past 12 days:</p><br>
-      <p>
-        <span class="badge rounded-pill text-bg-success">W</span>
-        <span class="badge rounded-pill text-bg-danger">L</span>
-      </p><br>
-      <p>Avg pts scored: NUMBER</p><br>
-      <p>Avg pts conceded: NUMBER</p>
+  <ng-container *ngIf="team$ | async as team; else loadingData">
+    <!-- ..... -->
+    <div class="card-header">
+      <h5 class="card-title">{{ team.full_name }} [{{ team.abbreviation }}]</h5>
+      <h6>
+        {{
+          team.conference === "West"
+            ? "Western conference"
+            : "Eastern Conference"
+        }}
+      </h6>
+      <span class="close" (click)="onClickClose()">×</span>
     </div>
-    <div class="mid-area__right">
-      <img src="" alt="Team Logo"/>
+    <!-- ..... -->
+    <div class="card-body mid-area">
+      <div class="mid-area__left">
+        <p>Results of past 12 days:</p>
+        <br />
+        <p>
+          <span class="badge rounded-pill text-bg-success">W</span>
+          <span class="badge rounded-pill text-bg-danger">L</span>
+        </p>
+        <br />
+        <p>Avg pts scored: NUMBER</p>
+        <br />
+        <p>Avg pts conceded: NUMBER</p>
+      </div>
+      <div class="mid-area__right">
+        <img
+          src="https://interstate21.com/nba-logos/SAC.png"
+          alt="Team Logo"
+        />
+      </div>
     </div>
-    <!-- <p class="card-text">
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a> -->
-  </div>
-  <!-- ..... -->
-  <div class="card-body">
-    <a [routerLink]="['/results', 123456789]" class="btn btn-primary">See game results &gt;&gt;</a>
-  </div>
-  <!-- ..... -->
+    <!-- ..... -->
+    <div class="card-body">
+      <a [routerLink]="['/results', 123456789]" class="btn btn-primary"
+        >See game results &gt;&gt;</a
+      >
+    </div>
+    <!-- ..... -->
+  </ng-container>
 </div>
+
+<ng-template #loadingData>
+  <div class="card-body d-flex align-items-center">
+    <div
+      class="spinner-border ms-auto me-auto"
+      role="status"
+      aria-hidden="true"
+    ></div>
+  </div>
+</ng-template>

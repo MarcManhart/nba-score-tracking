@@ -1,14 +1,13 @@
+<!-- ...... -->
 <div class="row">
-  <div class="col-6">
+  <div class="col-12">
     <app-team-chooser></app-team-chooser>
   </div>
 </div>
-
+<!-- ...... -->
 <div class="row mt-5">
-  <div class="col-10 card-holder">
-    <app-team-stats-card
-      *ngFor="let id of trackedTeamsIds"
-      [teamId]="id"
-    ></app-team-stats-card>
+  <div class="col-6 mb-4" *ngFor="let id of trackedTeamsIds">
+    <app-team-stats-card [teamId]="id"></app-team-stats-card>
   </div>
 </div>
+<!-- ...... -->

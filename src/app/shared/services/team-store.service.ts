@@ -46,7 +46,7 @@ export class TeamStoreService {
    *
    * @param teamId The id of the Team
    */
-  public removeZipFromStore(teamId: number): void {
+  public removeTeamFromStore(teamId: number): void {
     // get
     let teamIdsFromStorage = this.teamIdsSubject.value;
 

@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
+import { PeriodResults } from 'src/app/shared/models/PeriodStats';
 import { Result } from 'src/app/shared/models/Result';
 import { Team } from 'src/app/shared/models/Team';
 import { NBADataService } from 'src/app/shared/services/nba-data.service';
@@ -16,7 +17,7 @@ const PERIOD_IN_DAYS: number = 12;
 export class TeamStatsCardComponent implements OnInit {
   @Input() public teamId: number = 0;
   public team$: Observable<Team | null> | null = null; // since the store can manipulated from developer tools, its possible, that a wrong id was given and therefore the team observable is possibly null
-  public results$: Observable<Result[]> | null = null;
+  public results$: Observable<PeriodResults> | null = null;
 
   constructor(
     private teamStoreService: TeamStoreService,
@@ -42,7 +43,15 @@ export class TeamStatsCardComponent implements OnInit {
     );
   }
 
-  onClickClose() {
+  public onClickClose(): void {
     this.teamStoreService.removeTeamFromStore(this.teamId);
+  }
+
+  public wonTheGame(result: Result): boolean {
+    if (result.home_team.id == this.teamId) {
+      return result.home_team_score > result.visitor_team_score;
+    } else {
+      return result.visitor_team_score > result.home_team_score;
+    }
   }
 }

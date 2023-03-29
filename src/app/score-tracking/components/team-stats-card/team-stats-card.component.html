@@ -50,9 +50,11 @@
     </div>
     <!-- ..... -->
     <div class="card-body">
+      <!-- TODO hier weitermachen -->
       <a
         id="results{{ team.abbreviation }}"
-        [routerLink]="['/results', 123456789]"
+        [routerLink]="['/results', team.abbreviation]"
+        [state]="{ team: team, periodResults: null }"
         class="btn btn-primary"
         >See game results &gt;&gt;</a
       >

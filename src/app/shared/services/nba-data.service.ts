@@ -42,7 +42,6 @@ export class NBADataService {
     });
 
     let url = `${NBA_API_BASE_URL}/games?page=0${dateParametersStr}&per_page=12&team_ids[]=${id}`;
-    console.log(`GET ${url}`);
 
     return this.http.get<{ data: Result[] }>(url, httpOptions).pipe(
       map(({ data }) => {
@@ -87,33 +86,3 @@ export class NBADataService {
     return avgpts;
   }
 }
-
-// {
-//   "id": 858467,
-//   "date": "2023-03-26T00:00:00.000Z",
-//   "home_team": {
-//       "id": 10,
-//       "abbreviation": "GSW",
-//       "city": "Golden State",
-//       "conference": "West",
-//       "division": "Pacific",
-//       "full_name": "Golden State Warriors",
-//       "name": "Warriors"
-//   },
-//   "home_team_score": 96,
-//   "period": 4,
-//   "postseason": false,
-//   "season": 2022,
-//   "status": "Final",
-//   "time": "Final",
-//   "visitor_team": {
-//       "id": 18,
-//       "abbreviation": "MIN",
-//       "city": "Minnesota",
-//       "conference": "West",
-//       "division": "Northwest",
-//       "full_name": "Minnesota Timberwolves",
-//       "name": "Timberwolves"
-//   },
-//   "visitor_team_score": 99
-// }

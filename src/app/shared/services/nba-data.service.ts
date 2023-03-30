@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { filter, find, map, Observable, of } from 'rxjs';
 import { Team } from '../models/Team';
 import { formatDate } from '@angular/common';
 import { Result } from '../models/Result';
@@ -16,12 +16,32 @@ const httpOptions = {
 const NBA_API_BASE_URL = 'https://free-nba.p.rapidapi.com';
 const DATES_PARAM_PREFIX = '&dates[]=';
 
+const DUMMY_TEAM: Team = {
+  id: -1,
+  abbreviation: 'unknown',
+  city: 'unknown',
+  conference: 'unknown',
+  full_name: 'unknown',
+  division: 'unknown',
+};
+
+const DUMMY_PERIOD_RESULTS: PeriodResults = {
+  gameResults: [],
+  avgPtsScored: 0,
+  avgPtsConceded: 0,
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class NBADataService {
   constructor(private http: HttpClient) {}
 
+  /**
+   * Get all available Teams
+   *
+   * @returns
+   */
   public getAllTeams(): Observable<Team[]> {
     const URL = `${NBA_API_BASE_URL}/teams`;
 
@@ -30,8 +50,33 @@ export class NBADataService {
       .pipe(map((result: { data: Team[] }) => result.data));
   }
 
+  /**
+   * Get data of a specific team
+   *
+   * @param teamCode
+   * @returns
+   */
+  public getTeamByCode(teamCode: string | undefined | null): Observable<Team> {
+    const URL = `${NBA_API_BASE_URL}/teams/${teamCode}`;
+
+    return this.getAllTeams().pipe(
+      map((teams: Team[]) => {
+        let foundTeam: Team | undefined = teams.find(
+          (team: Team) => team.abbreviation === teamCode
+        );
+        return foundTeam ?? DUMMY_TEAM;
+      })
+    );
+  }
+
+  /**
+   *
+   * @param id
+   * @param dates
+   * @returns
+   */
   public getResultsOfTeamForPeriod(
-    id: number,
+    id: number | undefined | null,
     dates: Date[]
   ): Observable<PeriodResults> {
     // transform all dates into on long GET parameter string
@@ -43,6 +88,10 @@ export class NBADataService {
 
     let url = `${NBA_API_BASE_URL}/games?page=0${dateParametersStr}&per_page=12&team_ids[]=${id}`;
 
+    if (id === undefined || id === null) {
+      return of(DUMMY_PERIOD_RESULTS);
+    }
+
     return this.http.get<{ data: Result[] }>(url, httpOptions).pipe(
       map(({ data }) => {
         return {
@@ -53,6 +102,12 @@ export class NBADataService {
     );
   }
 
+  /**
+   *
+   *
+   * @param data
+   * @returns
+   */
   private calcAvgPtsScored(
     id: number,
     data: Result[]

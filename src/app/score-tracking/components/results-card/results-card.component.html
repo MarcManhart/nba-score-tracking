@@ -1,31 +1,42 @@
 <div class="card">
-   <!-- ..... -->
-   <div class="card-header">
-    <h5 class="card-title">{{ team.full_name }} [{{ team.abbreviation }}]</h5>
-    <h6>
-      {{
-        team.conference === "West"
-          ? "Western conference"
-          : "Eastern Conference"
-      }}
-    </h6>
-  </div>
-  <!-- ..... -->
-  <hr />
-  <!-- ..... -->
-  <div class="card-body mid-area">
-    <p>Scores of past 12 days:</p>
-    <p>KUERZEL NUMBER - NUMBER KUERZEL</p>
-    <p>KUERZEL NUMBER - NUMBER KUERZEL</p>
-    <p>KUERZEL NUMBER - NUMBER KUERZEL</p>
-    <p>KUERZEL NUMBER - NUMBER KUERZEL</p>
-    <p>KUERZEL NUMBER - NUMBER KUERZEL</p>
-  </div>
-  <!-- ..... -->
-  <div class="card-body">
-    <a [routerLink]="['/']" id="backBtn" class="btn btn-primary"
-      >&lt;&lt; Back to all team stats</a
-    >
-  </div>
-  <!-- ..... -->
+  <ng-container *ngIf="team$ | async; let team; else: loading">
+    <!-- ..... -->
+    <div class="card-header">
+      <h5 class="card-title">{{ team.full_name }} [{{ team.abbreviation }}]</h5>
+      <h6>
+        {{
+          team.conference === "West"
+            ? "Western conference"
+            : "Eastern Conference"
+        }}
+      </h6>
+    </div>
+    <!-- ..... -->
+    <div class="card-body mid-area">
+      <ng-container
+        *ngIf="periodResults$ | async; let periodResults; else: loading"
+      >
+        <p *ngFor="let result of periodResults.gameResults; index as i">
+          <b>{{result.home_team.abbreviation}}</b> {{result.home_team_score}} - {{result.home_team_score}} <b>{{result.home_team.abbreviation}}</b>
+        </p>
+      </ng-container>
+    </div>
+    <!-- ..... -->
+    <div class="card-body">
+      <a [routerLink]="['/']" id="backBtn" class="btn btn-primary"
+        >&lt;&lt; Back to all team stats</a
+      >
+    </div>
+    <!-- ..... -->
+  </ng-container>
 </div>
+
+<ng-template #loading>
+  <div class="card-body d-flex align-items-center">
+    <div
+      class="spinner-border ms-auto me-auto"
+      role="status"
+      aria-hidden="true"
+    ></div>
+  </div>
+</ng-template>

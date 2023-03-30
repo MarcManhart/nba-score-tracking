@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { PeriodResults } from 'src/app/shared/models/PeriodStats';
 import { Result } from 'src/app/shared/models/Result';
@@ -16,8 +16,10 @@ const PERIOD_IN_DAYS: number = 12;
 })
 export class TeamStatsCardComponent implements OnInit {
   @Input() public teamId: number = 0;
+
   public team$: Observable<Team | null> | null = null; // since the store can manipulated from developer tools, its possible, that a wrong id was given and therefore the team observable is possibly null
   public results$: Observable<PeriodResults> | null = null;
+  public logoLoaded: boolean = false;
 
   constructor(
     private teamStoreService: TeamStoreService,
@@ -25,10 +27,6 @@ export class TeamStatsCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const dates: Date[] = [];
-    for (let i = 0; i < PERIOD_IN_DAYS; i++)
-      dates.push(new Date(new Date().setDate(new Date().getDate() - i)));
-
     //--------
     this.team$ = this.nbaDataService.getAllTeams().pipe(
       map((teams: Team[]) => {
@@ -39,8 +37,14 @@ export class TeamStatsCardComponent implements OnInit {
     //--------
     this.results$ = this.nbaDataService.getResultsOfTeamForPeriod(
       this.teamId,
-      dates
+      this.getDatesOfLastNDays(PERIOD_IN_DAYS)
     );
+  }
+  private getDatesOfLastNDays(n: number) {
+    const dates: Date[] = [];
+    for (let i = 0; i < n; i++)
+      dates.push(new Date(new Date().setDate(new Date().getDate() - i)));
+    return dates;
   }
 
   public onClickClose(): void {
@@ -54,4 +58,5 @@ export class TeamStatsCardComponent implements OnInit {
       return result.visitor_team_score > result.home_team_score;
     }
   }
+
 }

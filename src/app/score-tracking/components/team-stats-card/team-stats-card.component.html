@@ -45,6 +45,8 @@
         <img
           src="https://interstate21.com/nba-logos/{{ team.abbreviation }}.png"
           alt="Team Logo"
+          [ngClass]="{'fadeIn':logoLoaded}"
+          (load)="logoLoaded = true"
         />
       </div>
     </div>
@@ -54,7 +56,6 @@
       <a
         id="results{{ team.abbreviation }}"
         [routerLink]="['/results', team.abbreviation]"
-        [state]="{ team: team, periodResults: null }"
         class="btn btn-primary"
         >See game results &gt;&gt;</a
       >

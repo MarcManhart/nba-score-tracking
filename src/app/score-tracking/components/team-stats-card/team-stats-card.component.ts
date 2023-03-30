@@ -27,19 +27,20 @@ export class TeamStatsCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //--------
+    // get the team
     this.team$ = this.nbaDataService.getAllTeams().pipe(
       map((teams: Team[]) => {
         return teams.find((team: Team) => team.id == this.teamId) ?? null;
       })
     );
 
-    //--------
+    // get the results
     this.results$ = this.nbaDataService.getResultsOfTeamForPeriod(
       this.teamId,
       this.getDatesOfLastNDays(PERIOD_IN_DAYS)
     );
   }
+
   private getDatesOfLastNDays(n: number) {
     const dates: Date[] = [];
     for (let i = 0; i < n; i++)
@@ -58,5 +59,4 @@ export class TeamStatsCardComponent implements OnInit {
       return result.visitor_team_score > result.home_team_score;
     }
   }
-
 }

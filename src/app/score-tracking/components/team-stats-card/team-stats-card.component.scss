@@ -1,12 +1,14 @@
 .card {
   width: auto;
   height: 450px;
+  border-radius: 0;
 }
 
-.close {
+.remove {
   position: absolute;
   right: 20px;
   top: 20px;
+  border: 0;
 }
 
 .mid-area {
@@ -34,6 +36,10 @@
       }
     }
   }
+}
+
+.results {
+  border-radius: 0;
 }
 
 @keyframes fadeIn {

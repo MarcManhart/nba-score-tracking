@@ -1,6 +1,5 @@
 <div class="card">
   <ng-container *ngIf="team$ | async; let team; else: loading">
-    <!-- ..... -->
     <div class="card-header">
       <h5 class="card-title">{{ team.full_name }} [{{ team.abbreviation }}]</h5>
       <h6>
@@ -11,23 +10,22 @@
         }}
       </h6>
     </div>
-    <!-- ..... -->
     <div class="card-body mid-area">
       <ng-container
         *ngIf="periodResults$ | async; let periodResults; else: loading"
       >
         <p *ngFor="let result of periodResults.gameResults; index as i">
-          <b>{{result.home_team.abbreviation}}</b> {{result.home_team_score}} - {{result.home_team_score}} <b>{{result.home_team.abbreviation}}</b>
+          <b>{{ result.home_team.abbreviation }}</b>
+          {{ result.home_team_score }} - {{ result.home_team_score }}
+          <b>{{ result.home_team.abbreviation }}</b>
         </p>
       </ng-container>
     </div>
-    <!-- ..... -->
     <div class="card-body">
       <a [routerLink]="['/']" id="backBtn" class="btn btn-primary"
         >&lt;&lt; Back to all team stats</a
       >
     </div>
-    <!-- ..... -->
   </ng-container>
 </div>
 

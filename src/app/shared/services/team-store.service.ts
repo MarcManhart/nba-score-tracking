@@ -11,8 +11,17 @@ export class TeamStoreService {
     number[]
   >(this.getIdsFromStorage());
 
-  constructor() {}
+  constructor() { }
+  
+  private getIdsFromStorage(): number[] {
+    const storeOuput: string | null =
+      localStorage.getItem(TEAM_IDS_STORAGE_KEY);
+    return storeOuput ? JSON.parse(storeOuput) : [];
+  }
 
+  private setIdsInStorage(teamIds: number[]): void {
+    localStorage.setItem(TEAM_IDS_STORAGE_KEY, JSON.stringify(teamIds));
+  }
   /**
    * Will add a id of a team to the local storage if not already present.
    *
@@ -34,7 +43,7 @@ export class TeamStoreService {
     // add and write
     if (!alreadyAdded) {
       teamIdsFromStorage.push(teamId);
-      this.setIdsFromStorage(teamIdsFromStorage);
+      this.setIdsInStorage(teamIdsFromStorage);
     }
 
     // inform
@@ -54,20 +63,9 @@ export class TeamStoreService {
     teamIdsFromStorage = teamIdsFromStorage.filter((id) => id !== teamId);
 
     // save
-    this.setIdsFromStorage(teamIdsFromStorage);
+    this.setIdsInStorage(teamIdsFromStorage);
 
     // inform
     this.teamIdsSubject.next(teamIdsFromStorage);
-  }
-
-  private getIdsFromStorage(): number[] {
-    const storeOuput: string | null = localStorage.getItem(
-      TEAM_IDS_STORAGE_KEY
-    );
-    return storeOuput ? JSON.parse(storeOuput) : [];
-  }
-
-  private setIdsFromStorage(teamIds: number[]): void {
-    localStorage.setItem(TEAM_IDS_STORAGE_KEY, JSON.stringify(teamIds));
   }
 }

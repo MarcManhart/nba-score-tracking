@@ -19,9 +19,7 @@ export class ResultsCardComponent {
   periodResults$: Observable<PeriodResults>;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
-    private teamStoreService: TeamStoreService,
     private nbaDataService: NBADataService
   ) {
     this.team$ = this.route.paramMap.pipe(

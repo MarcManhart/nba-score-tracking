@@ -12,10 +12,8 @@ const httpOptions = {
     'X-RapidAPI-Host': 'free-nba.p.rapidapi.com',
   }),
 };
-
 const NBA_API_BASE_URL = 'https://free-nba.p.rapidapi.com';
 const DATES_PARAM_PREFIX = '&dates[]=';
-
 const DUMMY_TEAM: Team = {
   id: -1,
   abbreviation: 'unknown',
@@ -24,7 +22,6 @@ const DUMMY_TEAM: Team = {
   full_name: 'unknown',
   division: 'unknown',
 };
-
 const DUMMY_PERIOD_RESULTS: PeriodResults = {
   gameResults: [],
   avgPtsScored: 0,
@@ -40,7 +37,7 @@ export class NBADataService {
   /**
    * Get all available Teams
    *
-   * @returns
+   * @returns an Observable over all NBA Teams
    */
   public getAllTeams(): Observable<Team[]> {
     const URL = `${NBA_API_BASE_URL}/teams`;
@@ -53,8 +50,8 @@ export class NBADataService {
   /**
    * Get data of a specific team
    *
-   * @param teamCode
-   * @returns
+   * @param teamCode the team name abbreviation (e.g. SAC)
+   * @returns Observable over the Team
    */
   public getTeamByCode(teamCode: string | undefined | null): Observable<Team> {
     const URL = `${NBA_API_BASE_URL}/teams/${teamCode}`;
@@ -70,10 +67,11 @@ export class NBADataService {
   }
 
   /**
+   * Will return an Object with contains the results as well as the average points of scores
    *
-   * @param id
-   * @param dates
-   * @returns
+   * @param id the ID of the Team; can also be undefined or null
+   * @param dates an array of Dates
+   * @returns an observable over the requested PeriodResults OR an dummy object
    */
   public getResultsOfTeamForPeriod(
     id: number | undefined | null,
@@ -103,14 +101,15 @@ export class NBADataService {
   }
 
   /**
+   *  Helper Method to get the average points
    *
-   *
-   * @param data
-   * @returns
+   * @param id the ID of the Team
+   * @param results the results witch contains the neccssary score informations
+   * @returns an Objects with to avg scores in it
    */
   private calcAvgPtsScored(
     id: number,
-    data: Result[]
+    results: Result[]
   ): {
     avgPtsScored: number;
     avgPtsConceded: number;
@@ -120,7 +119,7 @@ export class NBADataService {
       avgPtsConceded: 0,
     };
 
-    data.forEach((result: Result) => {
+    results.forEach((result: Result) => {
       let ownTeamPts = 0;
       let oppTeamPts = 0;
       if (result.home_team.id === id) {
@@ -135,8 +134,8 @@ export class NBADataService {
       avgpts.avgPtsConceded += oppTeamPts;
     });
 
-    avgpts.avgPtsScored = Math.round(avgpts.avgPtsScored / data.length);
-    avgpts.avgPtsConceded = Math.round(avgpts.avgPtsConceded / data.length);
+    avgpts.avgPtsScored = Math.round(avgpts.avgPtsScored / results.length);
+    avgpts.avgPtsConceded = Math.round(avgpts.avgPtsConceded / results.length);
 
     return avgpts;
   }

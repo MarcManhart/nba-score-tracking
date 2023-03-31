@@ -8,8 +8,8 @@ import { TeamStoreService } from 'src/app/shared/services/team-store.service';
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnDestroy {
-  public trackedTeamsIds: number[] = [];
   private subscriptions: Subscription[] = [];
+  public trackedTeamsIds: number[] = [];
 
   constructor(private teamStoreService: TeamStoreService) {
     this.subscriptions.push(

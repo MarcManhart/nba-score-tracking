@@ -13,8 +13,8 @@ const PERIOD_IN_DAYS: number = 12;
   styleUrls: ['./results-card.component.scss'],
 })
 export class ResultsCardComponent {
-  team$: Observable<Team>;
-  periodResults$: Observable<PeriodResults>;
+  public team$: Observable<Team>;
+  public periodResults$: Observable<PeriodResults>;
 
   constructor(
     private route: ActivatedRoute,

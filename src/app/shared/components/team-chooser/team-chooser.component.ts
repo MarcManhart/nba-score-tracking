@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Team } from '../../models/Team';
 import { NBADataService } from '../../services/nba-data.service';
 import { TeamStoreService } from '../../services/team-store.service';
@@ -11,7 +11,7 @@ import { TeamStoreService } from '../../services/team-store.service';
 })
 export class TeamChooserComponent {
   public teams$: Observable<Team[]>;
-  public selectedTeamId: any;
+  public selectedTeamId: number | undefined;
 
   constructor(
     private teamStoreService: TeamStoreService,
@@ -20,7 +20,8 @@ export class TeamChooserComponent {
     this.teams$ = this.nbaDataService.getAllTeams();
   }
 
-  onTrackTeamBtnClicked() {
-    this.teamStoreService.addTeam(this.selectedTeamId);
+  public onTrackTeamBtnClicked() {
+    if (this.selectedTeamId) this.teamStoreService.addTeam(this.selectedTeamId);
+    else alert('No Team was selected!');
   }
 }

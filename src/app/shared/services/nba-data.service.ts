@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { filter, find, map, Observable, of } from 'rxjs';
-import { Team } from '../models/Team';
 import { formatDate } from '@angular/common';
-import { Result } from '../models/Result';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map, Observable, of } from 'rxjs';
 import { PeriodResults } from '../models/PeriodStats';
+import { Result } from '../models/Result';
+import { Team } from '../models/Team';
 
 const httpOptions = {
   headers: new HttpHeaders({

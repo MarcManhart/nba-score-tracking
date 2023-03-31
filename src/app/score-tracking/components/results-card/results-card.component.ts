@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { map, Observable, switchMap } from 'rxjs';
+import { Component } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Observable, shareReplay, switchMap } from 'rxjs';
 import { PeriodResults } from 'src/app/shared/models/PeriodStats';
-import { Result } from 'src/app/shared/models/Result';
 import { Team } from 'src/app/shared/models/Team';
 import { NBADataService } from 'src/app/shared/services/nba-data.service';
-import { TeamStoreService } from 'src/app/shared/services/team-store.service';
 
 const PERIOD_IN_DAYS: number = 12;
 
@@ -15,8 +13,8 @@ const PERIOD_IN_DAYS: number = 12;
   styleUrls: ['./results-card.component.scss'],
 })
 export class ResultsCardComponent {
-  team$: Observable<Team>;
-  periodResults$: Observable<PeriodResults>;
+  public team$: Observable<Team>;
+  public periodResults$: Observable<PeriodResults>;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,7 +24,8 @@ export class ResultsCardComponent {
       switchMap((params: ParamMap) => {
         const teamCode = params.get('teamCode');
         return this.nbaDataService.getTeamByCode(teamCode);
-      })
+      }),
+      shareReplay(1),
     );
 
     this.periodResults$ = this.route.paramMap.pipe(

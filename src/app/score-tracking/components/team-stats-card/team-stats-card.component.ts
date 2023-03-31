@@ -1,6 +1,5 @@
-import { formatDate } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { PeriodResults } from 'src/app/shared/models/PeriodStats';
 import { Result } from 'src/app/shared/models/Result';
 import { Team } from 'src/app/shared/models/Team';

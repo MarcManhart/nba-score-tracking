@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Team } from '../../models/Team';
 import { NBADataService } from '../../services/nba-data.service';
 import { TeamStoreService } from '../../services/team-store.service';

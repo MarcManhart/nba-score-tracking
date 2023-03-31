@@ -50,7 +50,7 @@
     </div>
     <div class="card-body">
       <a
-        id="results{{ team.abbreviation }}"
+        [id]="'results' + team.abbreviation"
         [routerLink]="['/results', team.abbreviation]"
         class="btn btn-primary results"
         >See game results &gt;&gt;</a
